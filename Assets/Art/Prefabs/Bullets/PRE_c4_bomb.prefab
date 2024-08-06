@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4720719096891264773}
   - component: {fileID: 7379053741700004815}
   - component: {fileID: -5511592119397081548}
+  - component: {fileID: 5902778048951888757}
+  - component: {fileID: 5028985226629312759}
   m_Layer: 0
   m_Name: PRE_c4_bomb
   m_TagString: Untagged
@@ -100,3 +102,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &5902778048951888757
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9036285976030485018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.841717, y: 1.1990864, z: 3.6215446}
+  m_Center: {x: 0.000039577484, y: 0.620247, z: 0.25101006}
+--- !u!114 &5028985226629312759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9036285976030485018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626a060d42611244a868d7be628f4989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletTypes: 2

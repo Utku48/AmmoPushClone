@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2128835166133757695}
   - component: {fileID: 4210816191231676981}
   - component: {fileID: -4242215724410922466}
+  - component: {fileID: 2366779637643268369}
+  - component: {fileID: -1714360713342034721}
   m_Layer: 0
   m_Name: PRE_bowling_bomb
   m_TagString: Untagged
@@ -100,3 +102,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &2366779637643268369
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409196501642015712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.7975142
+  m_Center: {x: 0.00000017881393, y: 1.8350871, z: -0.00000029802322}
+--- !u!114 &-1714360713342034721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409196501642015712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626a060d42611244a868d7be628f4989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletTypes: 1

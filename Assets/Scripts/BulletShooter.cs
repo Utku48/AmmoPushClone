@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,15 +8,8 @@ public class BulletShooter : MonoBehaviour
 {
     [SerializeField] private GameObject _top;
 
-    public GameObject _dinamitPrefab;
-    public GameObject _bombPrefab;
-    public GameObject _c4Prefab;
-    public GameObject _varilPrefab;
-
-    public TextMeshProUGUI _dinamitCountText;
-    public TextMeshProUGUI _bombCountText;
-    public TextMeshProUGUI _c4CountText;
-    public TextMeshProUGUI _varilCountText;
+    public List<GameObject> bullets = new List<GameObject>();
+    public List<TextMeshProUGUI> _counts = new List<TextMeshProUGUI>();
 
     public int _dinamitCount;
     public int _bombCount;
@@ -27,6 +21,9 @@ public class BulletShooter : MonoBehaviour
     public Transform target;
 
     SkinnedMeshRenderer skinnedMeshRenderer;
+
+
+
     private void Start()
     {
         skinnedMeshRenderer = _top.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
@@ -35,40 +32,45 @@ public class BulletShooter : MonoBehaviour
 
     private void Update()
     {
-        _dinamitCountText.text = _dinamitCount.ToString();
-        _bombCountText.text = _dinamitCount.ToString();
-        _c4CountText.text = _dinamitCount.ToString();
-        _varilCountText.text = _dinamitCount.ToString();
+        _counts[0].text = _dinamitCount.ToString();
+        _counts[1].text = _bombCount.ToString();
+        _counts[2].text = _c4Count.ToString();
+        _counts[3].text = _varilCount.ToString();
     }
 
     public void DinamitButton()
     {
         if (_dinamitCount.ConvertTo<int>() > 0)
         {
-            FireProjectile(_dinamitPrefab);
+            FireProjectile(bullets[0]);
+            _dinamitCount--;
+        
         }
     }
 
     public void BombButton()
     {
-        if (_dinamitCount.ConvertTo<int>() > 0)
+        if (_bombCount.ConvertTo<int>() > 0)
         {
-            FireProjectile(_bombPrefab);
+            FireProjectile(bullets[1]);
+            _bombCount--;
         }
     }
 
     public void C4Button()
     {
-        if (_dinamitCount.ConvertTo<int>() > 0)
+        if (_c4Count.ConvertTo<int>() > 0)
         {
-            FireProjectile(_c4Prefab);
+            FireProjectile(bullets[2]);
+            _c4Count--;
         }
     }
     public void VarilButton()
     {
-        if (_dinamitCount.ConvertTo<int>() > 0)
+        if (_varilCount.ConvertTo<int>() > 0)
         {
-            FireProjectile(_varilPrefab);
+            FireProjectile(bullets[3]);
+            _varilCount--;
         }
     }
 
@@ -86,20 +88,21 @@ public class BulletShooter : MonoBehaviour
 
             if (skinnedMeshRenderer != null)
             {
-                int blendShapeIndex = skinnedMeshRenderer.sharedMesh.GetBlendShapeIndex("Key 1");
+                int key1 = skinnedMeshRenderer.sharedMesh.GetBlendShapeIndex("Key 1");
+                int key2 = skinnedMeshRenderer.sharedMesh.GetBlendShapeIndex("Key 2");
+                int key3 = skinnedMeshRenderer.sharedMesh.GetBlendShapeIndex("Key 3");
 
-                if (blendShapeIndex != -1)
+                if (key1 != -1 && key2 != -1 && key3 != -1)
                 {
-
-                    skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, 100f);
-
-                    StartCoroutine(ResetBlendShapeWeightAfterDelay(skinnedMeshRenderer, blendShapeIndex, .1f));
+                    // Start the coroutine to set blend shape weights sequentially
+                    StartCoroutine(SetBlendShapeWeightsSequentially(skinnedMeshRenderer, key1, key2, key3, 0.075f));
                 }
                 else
                 {
-                    Debug.LogError("BlendShape 'key3' bulunamadı.");
+                    Debug.LogError("One or more BlendShapes not found.");
                 }
             }
+
             if (rb != null)
             {
                 rb.velocity = direction * bulletSpeed;
@@ -107,11 +110,23 @@ public class BulletShooter : MonoBehaviour
         }
     }
 
-    private IEnumerator ResetBlendShapeWeightAfterDelay(SkinnedMeshRenderer skinnedMeshRenderer, int blendShapeIndex, float delay)
+    private IEnumerator SetBlendShapeWeightsSequentially(SkinnedMeshRenderer skinnedMeshRenderer, int key1, int key2, int key3, float delay)
     {
-        yield return new WaitForSeconds(delay);
 
-        // BlendShape ağırlığını 0 yap
-        skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
+        skinnedMeshRenderer.SetBlendShapeWeight(key1, 100f);
+        yield return new WaitForSeconds(delay);
+        skinnedMeshRenderer.SetBlendShapeWeight(key1, 0f);
+
+
+        skinnedMeshRenderer.SetBlendShapeWeight(key2, 100f);
+        yield return new WaitForSeconds(delay);
+        skinnedMeshRenderer.SetBlendShapeWeight(key2, 0f);
+
+
+        skinnedMeshRenderer.SetBlendShapeWeight(key3, 100f);
+        yield return new WaitForSeconds(delay);
+        skinnedMeshRenderer.SetBlendShapeWeight(key3, 0f);
     }
+
+
 }

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8755582223623382641}
   - component: {fileID: 6802375995272401595}
   - component: {fileID: -5762253769721615998}
+  - component: {fileID: 6153352803092055941}
+  - component: {fileID: -1088521457495274242}
   m_Layer: 0
   m_Name: PRE_barrel
   m_TagString: Untagged
@@ -102,3 +104,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6153352803092055941
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000711500650034030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6851068, y: 4.3157144, z: 3.894969}
+  m_Center: {x: 0.00000017881393, y: 2.1766775, z: -0.0018153191}
+--- !u!114 &-1088521457495274242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000711500650034030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626a060d42611244a868d7be628f4989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletTypes: 3
