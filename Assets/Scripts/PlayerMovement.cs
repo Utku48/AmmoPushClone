@@ -1,7 +1,4 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -26,6 +23,21 @@ public class PlayerMovement : MonoBehaviour
     private float _vertical;
 
     private bool _joystickHeld;
+
+    public static PlayerMovement Instance { get; private set; }
+    private void Awake()
+    {
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
 
     private void Start()
     {
@@ -89,11 +101,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnJoystickRelease()
     {
+        Vector3 characterStartPos = transform.position;
 
-        _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 1f), .25f).OnComplete(() =>
+        _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 1f), .25f).OnUpdate(() =>
+        {
+            //Physics.OverlapBox
+            //box içerisindeki player'a en yakın objenin pusherr2'ye distance'sini al 
+            //o mesafe kadar player'ı geri at
+
+            //transform.position=characterStartPos-mesafe   
+
+        }).OnComplete(() =>
          _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 0f), .25f)
         );
-
 
     }
 }
