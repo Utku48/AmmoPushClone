@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
     public BulletTypes _bulletTypes;
-
+    public int damage;
     public enum BulletTypes
     {
         Dinamit,

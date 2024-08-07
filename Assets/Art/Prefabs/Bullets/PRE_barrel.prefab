@@ -130,3 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletTypes: 3
+  damage: 75

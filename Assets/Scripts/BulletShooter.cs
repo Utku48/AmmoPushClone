@@ -80,7 +80,7 @@ public class BulletShooter : MonoBehaviour
     {
         if (projectilePrefab != null && _firingPoint != null && target != null)
         {
-            BossMovement.Instance.BossMove();
+         
 
             GameObject bullet = Instantiate(projectilePrefab, _firingPoint.position, _firingPoint.rotation);
             Vector3 direction = (target.position - _firingPoint.position);
