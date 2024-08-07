@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7756386564691683727}
   - component: {fileID: 5494619374668979525}
   - component: {fileID: 4873191272496970317}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PRE_hand_bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

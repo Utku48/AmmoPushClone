@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4242215724410922466}
   - component: {fileID: 2366779637643268369}
   - component: {fileID: -1714360713342034721}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PRE_bowling_bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

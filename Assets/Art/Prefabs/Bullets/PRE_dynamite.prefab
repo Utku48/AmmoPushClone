@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1408873500046634294}
   - component: {fileID: 4590332254468583336}
   - component: {fileID: 3622541082778807740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PRE_dynamite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

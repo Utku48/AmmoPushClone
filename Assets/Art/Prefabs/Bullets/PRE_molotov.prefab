@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1158149571298324822}
   - component: {fileID: 4032522322007098780}
   - component: {fileID: 4300950023263625071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PRE_molotov
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4263888305657789749}
   - component: {fileID: 6374243838803346867}
   - component: {fileID: 907196803983403466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M_Molotov.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
