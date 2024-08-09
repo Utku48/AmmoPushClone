@@ -30,7 +30,6 @@ public class BossMovement : MonoBehaviour
 
     [SerializeField] private HealthBar _healtBar;
 
-    public static BossMovement Instance { get; private set; }
 
 
     public enum BossState
@@ -41,6 +40,7 @@ public class BossMovement : MonoBehaviour
     }
     public BossState state = BossState.Idle;
 
+    public static BossMovement Instance { get; private set; }
 
     private void Awake()
     {
@@ -137,8 +137,9 @@ public class BossMovement : MonoBehaviour
             int azalan = firstHealth - _health;
             _percentHealth.text = "Damage % " + ((100 * azalan) / 300).ToString();
 
-            _animator.SetTrigger("die");
             _bossRb.velocity = Vector3.zero;
+            _animator.SetBool("run", false);
+            _animator.SetTrigger("die");
 
             StartCoroutine(WinEndPanel());
 
