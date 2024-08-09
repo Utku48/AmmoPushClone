@@ -1,50 +1,48 @@
 ﻿using DG.Tweening;
 using System.Collections;
-using System.Security.Cryptography;
+using System.Collections.Generic;
 using TMPro;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Scripting;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossMovement : MonoBehaviour
 {
-    [SerializeField] Rigidbody _bossRb;
-    [SerializeField] Transform _target;
-    [SerializeField] Animator _animator;
+    [SerializeField] private Rigidbody _bossRb;
+    [SerializeField] private Transform _target;
+    [SerializeField] private Animator _animator;
 
-    [SerializeField] GameObject _WinEndPanel;
-    [SerializeField] GameObject _LoseEndPanel;
-    [SerializeField] GameObject _fireButtonsPanel;
-    [SerializeField] GameObject _tapToStart;
-    [SerializeField] TextMeshProUGUI _percentHealth;
+    [SerializeField] private List<GameObject> _uiPanels;
+    [SerializeField] private List<TextMeshProUGUI> _uiTexts;
 
+    [SerializeField] private float _speed;
+    [SerializeField] private int _health = 300;
+    [SerializeField] private int _damageMoney;
 
-    [SerializeField] float _speed;
-    [SerializeField] int _health = 300;
-    int firstHealth;
-
-
-    float distanceToTarget;
+    private int firstHealth;
+    private int lvlID = 1;
+    private float distanceToTarget;
 
     [SerializeField] private HealthBar _healtBar;
 
+    public JsonManager jsonManager;
+    private MoneyAndUpgradeLevelsData moneyAndUpgradeLevelsData;
 
+    private bool isDead = false;
 
     public enum BossState
     {
         Idle,
         Running,
+        Die,
         FinalAttack
     }
+
     public BossState state = BossState.Idle;
 
     public static BossMovement Instance { get; private set; }
 
     private void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -57,7 +55,7 @@ public class BossMovement : MonoBehaviour
 
     void Start()
     {
-
+        moneyAndUpgradeLevelsData = jsonManager.moneyAndUpgradeLevelsData;
         AnimateBreathing();
 
         _bossRb = GetComponent<Rigidbody>();
@@ -72,35 +70,31 @@ public class BossMovement : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
-            _tapToStart.SetActive(false);
+            _uiPanels[3].SetActive(false); // TapToStart
         }
 
+        HandleStateTransition();
+        CalculateDamageAndMoney();
+    }
+
+    private void HandleStateTransition()
+    {
         switch (state)
         {
             case BossState.Idle:
-
-                _bossRb.velocity = Vector3.zero;
-                _animator.SetBool("run", false);
+                EnterIdleState();
                 break;
 
             case BossState.Running:
+                EnterRunningState();
+                break;
 
-                if (distanceToTarget > 4f)
-                {
-                    BossMove();
-                }
-                else
-                {
-                    state = BossState.FinalAttack;
-                }
+            case BossState.Die:
+                EnterDieState();
                 break;
 
             case BossState.FinalAttack:
-
-                _animator.SetTrigger("finalAttack");
-                _bossRb.velocity = Vector3.zero;
-                _fireButtonsPanel.SetActive(false);
-                StartCoroutine(LoseEndPanel());
+                EnterFinalAttackState();
                 break;
 
             default:
@@ -108,7 +102,8 @@ public class BossMovement : MonoBehaviour
         }
 
         distanceToTarget = Vector3.Distance(_bossRb.position, _target.position);
-        if (!_tapToStart.activeInHierarchy && distanceToTarget > 4f && state != BossState.FinalAttack)
+
+        if (!_uiPanels[3].activeInHierarchy && distanceToTarget > 4f && state != BossState.FinalAttack && state != BossState.Die)
         {
             state = BossState.Running;
             _animator.SetBool("run", true);
@@ -119,39 +114,63 @@ public class BossMovement : MonoBehaviour
         }
     }
 
+    private void EnterIdleState()
+    {
+        _bossRb.velocity = Vector3.zero;
+        _animator.SetBool("run", false);
+    }
+
+    private void EnterRunningState()
+    {
+        if (distanceToTarget > 4f)
+        {
+            BossMove();
+        }
+        else
+        {
+            state = BossState.FinalAttack;
+        }
+    }
+
+    private void EnterDieState()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+            _animator.SetTrigger("die");
+            Debug.Log("Die animasyonu tetiklendi");
+            _bossRb.velocity = Vector3.zero;
+            _animator.SetBool("run", false);
+        }
+    }
+
+    private void EnterFinalAttackState()
+    {
+        _animator.SetTrigger("finalAttack");
+        _bossRb.velocity = Vector3.zero;
+        _uiPanels[2].SetActive(false); // FireButtonsPanel
+        StartCoroutine(LoseEndPanel());
+    }
 
     public void BossMove()
     {
-
         if (_health > 0)
         {
             if (_bossRb != null && _target != null)
             {
                 Vector3 direction = (_target.position - _bossRb.position).normalized;
                 _bossRb.velocity = direction * _speed;
-
             }
         }
         else
         {
-            int azalan = firstHealth - _health;
-            _percentHealth.text = "Damage % " + ((100 * azalan) / 300).ToString();
-
-            _bossRb.velocity = Vector3.zero;
-            _animator.SetBool("run", false);
-            _animator.SetTrigger("die");
-
+            state = BossState.Die;
             StartCoroutine(WinEndPanel());
-
         }
     }
-
-
-
-
     private void OnTriggerEnter(Collider other)
     {
-        if (_health < 0)
+        if (_health <= 0)
         {
             return;
         }
@@ -163,42 +182,33 @@ public class BossMovement : MonoBehaviour
             _health -= bulletsComponent.damage;
             _animator.SetTrigger("hitReaction");
         }
-
     }
-
-
 
     IEnumerator WinEndPanel()
     {
         yield return new WaitForSeconds(2f);
-
-        _WinEndPanel.SetActive(true);
+        _uiPanels[0].SetActive(true); // WinEndPanel
     }
 
     IEnumerator LoseEndPanel()
     {
         yield return new WaitForSeconds(2f);
-
-        _LoseEndPanel.SetActive(true);
+        _uiPanels[1].SetActive(true); // LoseEndPanel
     }
-
 
     private void AnimateBreathing()
     {
-
-        _tapToStart.transform.DOScale(1.1f, 1f)
-             .SetEase(Ease.InOutSine)
-             .OnComplete(() =>
-             {
-
-                 _tapToStart.transform.DOScale(.8f, 1f)
-                     .SetEase(Ease.InOutSine)
-                     .OnComplete(() =>
-                     {
-
-                         AnimateBreathing();
-                     });
-             });
+        _uiPanels[3].transform.DOScale(1.1f, 1f) // TapToStart
+            .SetEase(Ease.InOutSine)
+            .OnComplete(() =>
+            {
+                _uiPanels[3].transform.DOScale(.8f, 1f)
+                    .SetEase(Ease.InOutSine)
+                    .OnComplete(() =>
+                    {
+                        AnimateBreathing();
+                    });
+            });
     }
 
     public void DoShakeCamera()
@@ -211,8 +221,19 @@ public class BossMovement : MonoBehaviour
         Camera.main.DOShakePosition(.1f, .2f);
     }
 
-    public void ShowFailFanel()
+    private void CalculateDamageAndMoney()
     {
+        int damageTaken = firstHealth - _health;
+        _uiTexts[0].text = "Damage % " + ((100 * damageTaken) / firstHealth).ToString(); // PercentHealth
 
+        _damageMoney = (((100 * damageTaken) / firstHealth)) * 5;
+        _uiTexts[2].text = "+ " + _damageMoney.ToString(); // DamageMoneyText
+    }
+
+    public void NextButton()
+    {
+        moneyAndUpgradeLevelsData.dataMoney += _damageMoney;
+        jsonManager.JsonSave();
+        SceneManager.LoadScene(0);
     }
 }

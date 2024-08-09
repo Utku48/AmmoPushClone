@@ -1,10 +1,10 @@
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public BulletTypes _bulletTypes;
+    public BulletTypes bulletType; // Enum olarak tanımlanır
     public int damage;
+    public int imageIndex;
     public enum BulletTypes
     {
         Dinamit,
@@ -14,12 +14,4 @@ public class Bullets : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<BossMovement>() != null)
-        {
-            Destroy(this.gameObject);
-
-        }
-    }
 }

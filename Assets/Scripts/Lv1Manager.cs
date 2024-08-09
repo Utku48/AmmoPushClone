@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,12 @@ public class Lv1Manager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _moneyCount;
     [SerializeField] private GameObject _tapToStart;
-    [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject _panel;
+
+    [SerializeField] private GameObject _pusher;
+    [SerializeField] private ParticleSystem _sizeParticle;
+
+
 
     public float money;
 
@@ -27,18 +33,25 @@ public class Lv1Manager : MonoBehaviour
 
     private void Start()
     {
-
         if (jsonManager != null)
         {
             moneyAndUpgradeLevelsData = jsonManager.moneyAndUpgradeLevelsData;
             money = moneyAndUpgradeLevelsData.dataMoney;
-            upgradeLevels[0] = moneyAndUpgradeLevelsData.dataSizeLevel;
-            upgradeLevels[1] = moneyAndUpgradeLevelsData.dataPowerLevel;
-            upgradeLevels[2] = moneyAndUpgradeLevelsData.dataTimeLevel;
 
-            upgradeLvlText[0].text = "Lvl " + moneyAndUpgradeLevelsData.dataSizeLevel.ToString();
-            upgradeLvlText[1].text = "Lvl " + moneyAndUpgradeLevelsData.dataPowerLevel.ToString();
-            upgradeLvlText[2].text = "Lvl " + moneyAndUpgradeLevelsData.dataTimeLevel.ToString();
+            TimerHandler.Instance.duration = jsonManager.moneyAndUpgradeLevelsData.dataTime;
+
+            var dataLevels = new int[]
+              {
+            moneyAndUpgradeLevelsData.dataSizeLevel,
+            moneyAndUpgradeLevelsData.dataPowerLevel,
+            moneyAndUpgradeLevelsData.dataTimeLevel
+              };
+
+            for (int i = 0; i < dataLevels.Length; i++)
+            {
+                upgradeLevels[i] = dataLevels[i];
+                upgradeLvlText[i].text = "Lvl " + dataLevels[i].ToString();
+            }
         }
 
         UpdateButtonImage();
@@ -89,6 +102,8 @@ public class Lv1Manager : MonoBehaviour
     public void OnSizeButton()
     {
         OnUpgradeButton(0, 25);
+        _pusher.transform.DOScale(new Vector3(_pusher.transform.localScale.x + .2f, _pusher.transform.localScale.y, _pusher.transform.localScale.z), .2f);
+        _sizeParticle.Play();
     }
 
     public void OnPowerButton()
@@ -99,6 +114,14 @@ public class Lv1Manager : MonoBehaviour
     public void OnTimeButton()
     {
         OnUpgradeButton(2, 15);
+
+        if (money >= upgradePrices[2])
+        {
+            TimerHandler.Instance.duration += 2;
+            TimerHandler.Instance.timer_Text.text = TimerHandler.Instance.duration.ToString();
+
+        }
+        SaveData();
     }
 
     private void AnimateBreathing()
@@ -125,7 +148,7 @@ public class Lv1Manager : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        panel.SetActive(false);
+        _panel.SetActive(false);
     }
 
     private void SaveData()
@@ -136,14 +159,14 @@ public class Lv1Manager : MonoBehaviour
             moneyAndUpgradeLevelsData.dataSizeLevel = upgradeLevels[0];
             moneyAndUpgradeLevelsData.dataPowerLevel = upgradeLevels[1];
             moneyAndUpgradeLevelsData.dataTimeLevel = upgradeLevels[2];
-
+            moneyAndUpgradeLevelsData.dataTime = TimerHandler.Instance.duration;
             jsonManager.JsonSave();
         }
     }
 
     public void MoneyLevelIncrease()
     {
-        money++;
+        money += 50;
         SaveData();
     }
 }

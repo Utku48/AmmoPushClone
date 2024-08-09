@@ -18,7 +18,7 @@ public class JsonManager : MonoBehaviour
         }
         else
         {
-            moneyAndUpgradeLevelsData = new MoneyAndUpgradeLevelsData(0, 0, 0, 0);
+            moneyAndUpgradeLevelsData = new MoneyAndUpgradeLevelsData(0, 0, 0, 0,23);
         }
     }
 
@@ -26,7 +26,7 @@ public class JsonManager : MonoBehaviour
     public void JsonSave()
     {
         string jsonString = JsonUtility.ToJson(moneyAndUpgradeLevelsData, true);
-        Directory.CreateDirectory(Application.persistentDataPath + "/Saves");
+        Directory.CreateDirectory(Application.persistentDataPath );
         File.WriteAllText(Application.persistentDataPath + "/MoneyLevelData.json", jsonString);
     }
 

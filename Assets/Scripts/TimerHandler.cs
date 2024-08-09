@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using DG.Tweening;
 using System.Collections;
+using System.Net.Http;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,8 +14,8 @@ public class TimerHandler : MonoBehaviour
 
 
     [SerializeField] private Image fillImage;
-    [SerializeField] private TextMeshProUGUI timer_Text;
-    [SerializeField] private int duration;
+    [SerializeField] public TextMeshProUGUI timer_Text;
+    public int duration;
     [SerializeField]
     private Image _timeOutImage;
 
@@ -36,6 +37,10 @@ public class TimerHandler : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        timer_Text.text = duration.ToString();
+    }
     public void StartTimer()
     {
         Vector3 initialPosition = gameObject.transform.position; // İlk pozisyonu kaydet
@@ -111,6 +116,7 @@ public class TimerHandler : MonoBehaviour
             perlinNoise.m_AmplitudeGain = 0f;
             perlinNoise.m_FrequencyGain = 0f;
 
+            SceneManager.LoadScene(1);
         }
 
     }
