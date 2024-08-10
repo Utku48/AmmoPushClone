@@ -14,6 +14,9 @@ public class BulletCollector : MonoBehaviour
 
     private Dictionary<int, Image> imageIndexMap = new Dictionary<int, Image>();
 
+    List<Bullets.BulletTypes> bulletImageIndex = new List<Bullets.BulletTypes>();
+
+
     public JsonManagerBulletData dataManager;
 
     private void Start()
@@ -38,14 +41,28 @@ public class BulletCollector : MonoBehaviour
         if (bullet != null)
         {
             string bulletTypeName = bullet.bulletType.ToString();
-            CollectBullet(bulletTypeName, 1);
+            CollectBullet(bulletTypeName, 1, bullet.bulletType);
+
+            foreach (Transform item in panelImages)
+            {
+                int index = item.GetSiblingIndex();
+
+                if (item.GetComponent<Image>().sprite != null)
+                {
+                    item.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetBulletCountByType(bulletImageIndex[index]).ToString();
+                }
+
+            }
+
             Destroy(other.gameObject);
-            FindFirstEmptyImage(bullet.imageIndex);
+            FindFirstEmptyImage(bullet.imageIndex, bullet.bulletType);
         }
     }
 
-    private void CollectBullet(string typeName, int countIncrement)
+    private void CollectBullet(string typeName, int countIncrement, Bullets.BulletTypes type)
     {
+
+
         var bulletData = inventory.bullets.Find(b => b.bulletTypeName == typeName);
         if (bulletData != null)
         {
@@ -53,7 +70,7 @@ public class BulletCollector : MonoBehaviour
         }
         else
         {
-            inventory.bullets.Add(new BulletData(typeName, countIncrement));
+            inventory.bullets.Add(new BulletData(typeName, countIncrement, type));
         }
 
         if (dataManager != null)
@@ -62,7 +79,7 @@ public class BulletCollector : MonoBehaviour
         }
     }
 
-    public void FindFirstEmptyImage(int index)
+    public void FindFirstEmptyImage(int index, Bullets.BulletTypes type)
     {
         foreach (Transform child in panelImages)
         {
@@ -76,7 +93,11 @@ public class BulletCollector : MonoBehaviour
                         image.gameObject.transform.DOScale((Vector3.one * 2.25f), .2f).OnComplete(() => image.gameObject.transform.DOScale(new Vector3(1.75f, 1.75f, 1.75f), .3f));
                         image.sprite = bulletImages[index];
                         imageIndexMap[index] = image;
-                        Debug.Log(image.name);
+
+                        if (!bulletImageIndex.Contains(type))
+                        {
+                            bulletImageIndex.Add(type);
+                        }
                         return;
                     }
                     else

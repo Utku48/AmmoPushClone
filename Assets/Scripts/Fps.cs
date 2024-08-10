@@ -28,7 +28,7 @@ public class Fps : MonoBehaviour
             _frameCounter = 0;
             _timeCounter = 0;
         }
-        fpssText.text = "Fps: " + _fps.ToString();
+       
 
     }
 }

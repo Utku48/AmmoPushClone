@@ -18,7 +18,7 @@ public class JsonManager : MonoBehaviour
         }
         else
         {
-            moneyAndUpgradeLevelsData = new MoneyAndUpgradeLevelsData(0, 0, 0, 0, 23, 0);
+            moneyAndUpgradeLevelsData = new MoneyAndUpgradeLevelsData(0, 0, 0, 0, 23, 1);
         }
     }
 

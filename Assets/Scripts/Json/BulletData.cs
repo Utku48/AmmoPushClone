@@ -1,22 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 [System.Serializable]
 public class BulletData
 {
     public string bulletTypeName;
     public int count;
+    public Bullets.BulletTypes bulletType;
 
-    public BulletData(string typeName, int initialCount)
+
+    public BulletData(string bulletTypeName, int count, Bullets.BulletTypes bulletType)
     {
-        bulletTypeName = typeName;
-        count = initialCount;
-
-    }
-
-
-    public BulletData(int count)
-    {
+        this.bulletTypeName = bulletTypeName;
         this.count = count;
+        this.bulletType = bulletType;
     }
 }
 
@@ -24,4 +21,9 @@ public class BulletData
 public class BulletInventory
 {
     public List<BulletData> bullets = new List<BulletData>();
+
+    public int GetBulletCountByType(Bullets.BulletTypes type)
+    {
+        return bullets.First(x => x.bulletType == type).count;
+    }
 }

@@ -292,7 +292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &87607861
 RectTransform:
   m_ObjectHideFlags: 0
@@ -442,7 +442,7 @@ RectTransform:
   m_Children:
   - {fileID: 819803721}
   m_Father: {fileID: 233376235}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -745,8 +745,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1794403049}
   - {fileID: 185641793}
+  - {fileID: 1794403049}
   - {fileID: 368091622}
   - {fileID: 1832330865}
   - {fileID: 87607861}
@@ -814,6 +814,7 @@ MonoBehaviour:
   - {fileID: 1032439812}
   bulletSpeed: 2
   target: {fileID: 1117767147}
+  levelID: 0
 --- !u!4 &244797851
 Transform:
   m_ObjectHideFlags: 0
@@ -847,6 +848,9 @@ MonoBehaviour:
     dataPowerLevel: 0
     dataTimeLevel: 0
     dataTime: 0
+    speed: 0
+    pusherScale: 0
+    datalevelID: 0
 --- !u!114 &244797853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5576,7 +5580,7 @@ RectTransform:
   - {fileID: 1986487636}
   - {fileID: 1312611693}
   m_Father: {fileID: 233376235}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -212,7 +212,7 @@ public class BulletShooter : MonoBehaviour
                 positionIndex = (positionIndex + 1) % instantiatePositions.Count;
 
 
-                yield return new WaitForSeconds(.05f);
+                yield return new WaitForSeconds(.001f);
             }
         }
 

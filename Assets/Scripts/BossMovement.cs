@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,7 +24,7 @@ public class BossMovement : MonoBehaviour
 
 
     private int firstHealth;
-    private int lvlID = 1;
+    private int lvlID;
     private float distanceToTarget;
 
     [SerializeField] private HealthBar _healtBar;
@@ -74,7 +75,7 @@ public class BossMovement : MonoBehaviour
 
         _healtBar.UpdateHealthBar(firstHealth, _health);
 
-        moneyAndUpgradeLevelsData.datalevelID = lvlID;
+        lvlID = moneyAndUpgradeLevelsData.datalevelID;
     }
 
     void Update()
@@ -136,7 +137,7 @@ public class BossMovement : MonoBehaviour
 
     private void EnterRunningState()
     {
-        if (distanceToTarget > 4f)
+        if (!_uiPanels[3].activeInHierarchy && distanceToTarget > 4f)
         {
             BossMove();
         }
@@ -151,8 +152,9 @@ public class BossMovement : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
+            _animator.ResetTrigger("hitReaction");
             _animator.SetTrigger("die");
-            Debug.Log("Die animasyonu tetiklendi");
+
             _bossRb.velocity = Vector3.zero;
             _animator.SetBool("run", false);
         }
