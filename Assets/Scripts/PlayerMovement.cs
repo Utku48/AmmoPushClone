@@ -7,22 +7,22 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody _rb;
     [SerializeField] FloatingJoystick _floatingJs;
-    [SerializeField] private float _speed;
+    public float _speed;
 
     [SerializeField] private Animator _anim;
     [SerializeField] private Animator _pusherAnim;
     [SerializeField] private Transform _playerTransform;
 
 
-    [SerializeField] private GameObject _pusher1;
+
     [SerializeField] private GameObject _pusher2;
     [SerializeField] private GameObject _plane;
     [SerializeField] private Transform _planePoint;
 
     [SerializeField] private BoxCollider _maxCollider;
+    public Transform childTransform;
 
-
-
+    
     private float _horizontal;
     private float _vertical;
 
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _joystickHeld = false;
 
+    
     }
 
     private void Update()

@@ -10,9 +10,14 @@ public class BulletData
     {
         bulletTypeName = typeName;
         count = initialCount;
+
     }
 
-    public BulletData() { }
+
+    public BulletData(int count)
+    {
+        this.count = count;
+    }
 }
 
 [System.Serializable]

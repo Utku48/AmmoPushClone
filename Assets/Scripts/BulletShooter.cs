@@ -19,6 +19,7 @@ public class BulletShooter : MonoBehaviour
     public float bulletSpeed = 20f;
     public Transform target;
 
+    public int levelID;
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
     private void Start()
@@ -38,7 +39,7 @@ public class BulletShooter : MonoBehaviour
 
         skinnedMeshRenderer = _top.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
 
-       
+    
     }
 
     private void Update()
@@ -73,10 +74,10 @@ public class BulletShooter : MonoBehaviour
                 case "Dinamit":
                     index = 2;
                     break;
-                case "Bomb":
+                case "C4":
                     index = 3;
                     break;
-                case "C4":
+                case "Bomb":
                     index = 4;
                     break;
                 case "Varil":
@@ -120,7 +121,7 @@ public class BulletShooter : MonoBehaviour
 
     public void C4Button()
     {
-        if (_bulletCounts.Count > 1 && _bulletCounts[3] > 0)
+        if (_bulletCounts.Count > 3 && _bulletCounts[3] > 0)
         {
             FireProjectile(bullets[3]);
             _bulletCounts[3]--;
@@ -130,7 +131,7 @@ public class BulletShooter : MonoBehaviour
 
     public void BombButton()
     {
-        if (_bulletCounts.Count > 2 && _bulletCounts[4] > 0)
+        if (_bulletCounts.Count > 4 && _bulletCounts[4] > 0)
         {
             FireProjectile(bullets[4]);
             _bulletCounts[4]--;
@@ -140,13 +141,14 @@ public class BulletShooter : MonoBehaviour
 
     public void VarilButton()
     {
-        if (_bulletCounts.Count > 3 && _bulletCounts[5] > 0)
+        if (_bulletCounts.Count > 5 && _bulletCounts[5] > 0)
         {
             FireProjectile(bullets[5]);
             _bulletCounts[5]--;
             dataManager.SaveData();
         }
     }
+
 
     private void FireProjectile(GameObject projectilePrefab)
     {

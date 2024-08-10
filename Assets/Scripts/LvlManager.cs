@@ -5,28 +5,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lv1Manager : MonoBehaviour
+public class LvlManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _moneyCount;
-    [SerializeField] private GameObject _tapToStart;
-    [SerializeField] private GameObject _panel;
-
-    [SerializeField] private GameObject _pusher;
-    [SerializeField] private ParticleSystem _sizeParticle;
-
-
-
     public float money;
 
-    [SerializeField] private List<Button> buttons = new List<Button>();
+
+    public List<Button> buttons = new List<Button>();
     [SerializeField] private List<Sprite> greyUpgrades = new List<Sprite>();
     [SerializeField] private List<Sprite> greenUpgrades = new List<Sprite>();
 
-    [SerializeField] private List<int> upgradePrices = new List<int>();
+    public List<int> upgradePrices = new List<int>();
     [SerializeField] private List<int> upgradeLevels = new List<int>();
 
     [SerializeField] private List<TextMeshProUGUI> upgradePricesText = new List<TextMeshProUGUI>();
     [SerializeField] private List<TextMeshProUGUI> upgradeLvlText = new List<TextMeshProUGUI>();
+
+    [SerializeField] private ParticleSystem _sizeParticle;
+    [SerializeField] private GameObject _pusher;
+
+
 
     public JsonManager jsonManager;
     private MoneyAndUpgradeLevelsData moneyAndUpgradeLevelsData;
@@ -37,15 +34,22 @@ public class Lv1Manager : MonoBehaviour
         {
             moneyAndUpgradeLevelsData = jsonManager.moneyAndUpgradeLevelsData;
             money = moneyAndUpgradeLevelsData.dataMoney;
-
             TimerHandler.Instance.duration = jsonManager.moneyAndUpgradeLevelsData.dataTime;
 
+            PlayerMovement.Instance._speed = jsonManager.moneyAndUpgradeLevelsData.speed;
+
+            Vector3 newScale = _pusher.transform.localScale;
+            newScale.x = jsonManager.moneyAndUpgradeLevelsData.pusherScale;
+            newScale.y = 1f;
+            newScale.z = 1f;
+            _pusher.transform.localScale = newScale;
+
             var dataLevels = new int[]
-              {
-            moneyAndUpgradeLevelsData.dataSizeLevel,
-            moneyAndUpgradeLevelsData.dataPowerLevel,
-            moneyAndUpgradeLevelsData.dataTimeLevel
-              };
+            {
+                moneyAndUpgradeLevelsData.dataSizeLevel,
+                moneyAndUpgradeLevelsData.dataPowerLevel,
+                moneyAndUpgradeLevelsData.dataTimeLevel
+            };
 
             for (int i = 0; i < dataLevels.Length; i++)
             {
@@ -55,13 +59,10 @@ public class Lv1Manager : MonoBehaviour
         }
 
         UpdateButtonImage();
-        AnimateBreathing();
     }
 
     private void Update()
     {
-        _moneyCount.text = money + "$".ToString();
-
         for (int i = 0; i < upgradePrices.Count; i++)
         {
             upgradePricesText[i].text = upgradePrices[i].ToString();
@@ -101,24 +102,30 @@ public class Lv1Manager : MonoBehaviour
 
     public void OnSizeButton()
     {
-        OnUpgradeButton(0, 65);
-
         if (money >= upgradePrices[0])
         {
             _pusher.transform.DOScale(new Vector3(_pusher.transform.localScale.x + .05f, _pusher.transform.localScale.y, _pusher.transform.localScale.z), .2f);
             _sizeParticle.Play();
         }
+        OnUpgradeButton(0, 65);
+
+        SaveData();
     }
 
     public void OnPowerButton()
     {
         OnUpgradeButton(1, 75);
+        if (money > upgradePrices[1])
+        {
+            PlayerMovement.Instance._speed += .7f;
+        }
+
+        SaveData();
     }
 
     public void OnTimeButton()
     {
         OnUpgradeButton(2, 55);
-
         if (money >= upgradePrices[2])
         {
             TimerHandler.Instance.duration += 2;
@@ -126,33 +133,6 @@ public class Lv1Manager : MonoBehaviour
 
         }
         SaveData();
-    }
-
-    private void AnimateBreathing()
-    {
-        _tapToStart.transform.DOScale(1.1f, 1f)
-            .SetEase(Ease.InOutSine)
-            .OnComplete(() =>
-            {
-                _tapToStart.transform.DOScale(.8f, 1f)
-                    .SetEase(Ease.InOutSine)
-                    .OnComplete(() =>
-                    {
-                        AnimateBreathing();
-                    });
-            });
-    }
-
-    public void OnPointerClick()
-    {
-        TimerHandler.Instance.StartTimer();
-        _tapToStart.SetActive(false);
-
-        foreach (var item in buttons)
-        {
-            item.gameObject.SetActive(false);
-        }
-        _panel.SetActive(false);
     }
 
     private void SaveData()
@@ -164,6 +144,8 @@ public class Lv1Manager : MonoBehaviour
             moneyAndUpgradeLevelsData.dataPowerLevel = upgradeLevels[1];
             moneyAndUpgradeLevelsData.dataTimeLevel = upgradeLevels[2];
             moneyAndUpgradeLevelsData.dataTime = TimerHandler.Instance.duration;
+            moneyAndUpgradeLevelsData.speed = PlayerMovement.Instance._speed;
+            moneyAndUpgradeLevelsData.pusherScale = _pusher.transform.localScale.x;
             jsonManager.JsonSave();
         }
     }

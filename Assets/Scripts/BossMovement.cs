@@ -23,7 +23,7 @@ public class BossMovement : MonoBehaviour
 
 
     private int firstHealth;
-    private int lvlID = 1;
+    private int lvlID;
     private float distanceToTarget;
 
     [SerializeField] private HealthBar _healtBar;
@@ -63,7 +63,7 @@ public class BossMovement : MonoBehaviour
         foreach (RectTransform child in _uiPanels[2].gameObject.transform)
         {
 
-            child.DOScale(Vector3.one , 1f);
+            child.DOScale(Vector3.one, 1f);
 
         }
         moneyAndUpgradeLevelsData = jsonManager.moneyAndUpgradeLevelsData;
@@ -73,6 +73,8 @@ public class BossMovement : MonoBehaviour
         firstHealth = _health;
 
         _healtBar.UpdateHealthBar(firstHealth, _health);
+
+        lvlID = moneyAndUpgradeLevelsData.datalevelID;
     }
 
     void Update()
@@ -175,23 +177,29 @@ public class BossMovement : MonoBehaviour
         }
         else
         {
+            _uiPanels[2].SetActive(false);
+            lvlID++;
+            gameObject.GetComponent<CapsuleCollider>().enabled = false;
             state = BossState.Die;
             StartCoroutine(WinEndPanel());
+            moneyAndUpgradeLevelsData.datalevelID = lvlID;
+            jsonManager.JsonSave();
         }
     }
     private void OnTriggerEnter(Collider other)
     {
+
+        Bullets bulletsComponent = other.gameObject.GetComponent<Bullets>();
+
         if (_health <= 0)
         {
             return;
         }
-
-        Bullets bulletsComponent = other.gameObject.GetComponent<Bullets>();
-
         if (bulletsComponent != null)
         {
             _health -= bulletsComponent.damage;
             _animator.SetTrigger("hitReaction");
+            Destroy(other.gameObject);
         }
     }
 
@@ -255,24 +263,41 @@ public class BossMovement : MonoBehaviour
         _uiTexts[3].text = _winMoney.ToString();
     }
 
-    public void NextButton()
+    public void WinNextButton()
+    {
+
+        int totalMoney = _lvlMoney;
+
+
+        if (_uiPanels[0].activeInHierarchy)
+        {
+            totalMoney += _winMoney;
+            SceneManager.LoadScene("Level" + lvlID);
+
+        }
+
+        moneyAndUpgradeLevelsData.dataMoney += totalMoney;
+
+        jsonManager.JsonSave();
+
+    }
+    public void LoseNextButton()
     {
 
         int totalMoney = _lvlMoney;
 
         if (_uiPanels[1].activeInHierarchy)
         {
+            SceneManager.LoadScene("Level" + lvlID);
             totalMoney += _damageMoney;
         }
-        else if (_uiPanels[0].activeInHierarchy)
-        {
-            totalMoney += _winMoney;
-        }
+
 
         moneyAndUpgradeLevelsData.dataMoney += totalMoney;
 
         jsonManager.JsonSave();
-        SceneManager.LoadScene(0);
+
     }
+
 
 }
