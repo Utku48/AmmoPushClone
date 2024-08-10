@@ -20,10 +20,10 @@ public class BulletShooter : MonoBehaviour
 
     private void Start()
     {
-        // Verileri yükle
+       
         if (dataManager != null)
         {
-            dataManager.LoadData(); // Verileri yükle
+            dataManager.LoadData();
             UpdateBulletCounts();
         }
         else
@@ -47,9 +47,9 @@ public class BulletShooter : MonoBehaviour
 
     private void UpdateBulletCounts()
     {
-        _bulletCounts.Clear(); // Önceki sayıları temizle
+        _bulletCounts.Clear(); 
 
-        // Liste uzunluğunu ayarla
+      
         _bulletCounts.AddRange(new int[4]);
 
         foreach (var bulletData in dataManager.inventory.bullets)
@@ -84,27 +84,27 @@ public class BulletShooter : MonoBehaviour
         {
             FireProjectile(bullets[0]);
             _bulletCounts[0]--;
-            dataManager.SaveData(); // Veriyi kaydet
+            dataManager.SaveData();
         }
     }
 
     public void C4Button()
     {
-        if (_bulletCounts.Count > 1 && _bulletCounts[1] > 0)
+        if (_bulletCounts.Count > 1 && _bulletCounts[2] > 0)
         {
-            FireProjectile(bullets[1]);
-            _bulletCounts[1]--;
-            dataManager.SaveData(); // Veriyi kaydet
+            FireProjectile(bullets[2]);
+            _bulletCounts[2]--;
+            dataManager.SaveData(); 
         }
     }
 
     public void BombButton()
     {
-        if (_bulletCounts.Count > 2 && _bulletCounts[2] > 0)
+        if (_bulletCounts.Count > 2 && _bulletCounts[1] > 0)
         {
-            FireProjectile(bullets[2]);
-            _bulletCounts[2]--;
-            dataManager.SaveData(); // Veriyi kaydet
+            FireProjectile(bullets[1]);
+            _bulletCounts[1]--;
+            dataManager.SaveData(); 
         }
     }
 
@@ -114,7 +114,7 @@ public class BulletShooter : MonoBehaviour
         {
             FireProjectile(bullets[3]);
             _bulletCounts[3]--;
-            dataManager.SaveData(); // Veriyi kaydet
+            dataManager.SaveData(); 
         }
     }
 

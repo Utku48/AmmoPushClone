@@ -31,4 +31,9 @@ public class JsonManagerBulletData : MonoBehaviour
             inventory = new BulletInventory(); // Dosya yoksa yeni bir envanter oluştur
         }
     }
+
+    public void ClearList()
+    {
+        inventory.bullets.Clear();
+    }
 }

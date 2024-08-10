@@ -101,19 +101,23 @@ public class Lv1Manager : MonoBehaviour
 
     public void OnSizeButton()
     {
-        OnUpgradeButton(0, 25);
-        _pusher.transform.DOScale(new Vector3(_pusher.transform.localScale.x + .2f, _pusher.transform.localScale.y, _pusher.transform.localScale.z), .2f);
-        _sizeParticle.Play();
+        OnUpgradeButton(0, 65);
+
+        if (money >= upgradePrices[0])
+        {
+            _pusher.transform.DOScale(new Vector3(_pusher.transform.localScale.x + .05f, _pusher.transform.localScale.y, _pusher.transform.localScale.z), .2f);
+            _sizeParticle.Play();
+        }
     }
 
     public void OnPowerButton()
     {
-        OnUpgradeButton(1, 35);
+        OnUpgradeButton(1, 75);
     }
 
     public void OnTimeButton()
     {
-        OnUpgradeButton(2, 15);
+        OnUpgradeButton(2, 55);
 
         if (money >= upgradePrices[2])
         {

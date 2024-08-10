@@ -14,7 +14,9 @@ public class BulletCollector : MonoBehaviour
 
     private void Start()
     {
-   
+        dataManager.ClearList();
+
+
         if (dataManager != null)
         {
             inventory = dataManager.inventory;

@@ -16,7 +16,11 @@ public class BossMovement : MonoBehaviour
 
     [SerializeField] private float _speed;
     [SerializeField] private int _health = 300;
+
     [SerializeField] private int _damageMoney;
+    [SerializeField] private int _lvlMoney;
+    [SerializeField] private int _winMoney;
+
 
     private int firstHealth;
     private int lvlID = 1;
@@ -224,16 +228,43 @@ public class BossMovement : MonoBehaviour
     private void CalculateDamageAndMoney()
     {
         int damageTaken = firstHealth - _health;
-        _uiTexts[0].text = "Damage % " + ((100 * damageTaken) / firstHealth).ToString(); // PercentHealth
+        int percentDamage = (100 * damageTaken) / firstHealth;
 
-        _damageMoney = (((100 * damageTaken) / firstHealth)) * 5;
-        _uiTexts[2].text = "+ " + _damageMoney.ToString(); // DamageMoneyText
+
+        _uiTexts[0].text = "Damage % " + percentDamage.ToString();
+
+
+        _damageMoney = percentDamage * 5;
+        _uiTexts[2].text = "+ " + _damageMoney.ToString();
+
+
+        _lvlMoney = 100;
+        _uiTexts[1].text = _lvlMoney.ToString();
+        _uiTexts[4].text = _lvlMoney.ToString();
+
+
+        _winMoney = damageTaken * 5;
+        _uiTexts[3].text = _winMoney.ToString();
     }
 
     public void NextButton()
     {
-        moneyAndUpgradeLevelsData.dataMoney += _damageMoney;
+
+        int totalMoney = _lvlMoney;
+
+        if (_uiPanels[1].activeInHierarchy)
+        {
+            totalMoney += _damageMoney;
+        }
+        else if (_uiPanels[0].activeInHierarchy)
+        {
+            totalMoney += _winMoney;
+        }
+
+        moneyAndUpgradeLevelsData.dataMoney += totalMoney;
+
         jsonManager.JsonSave();
         SceneManager.LoadScene(0);
     }
+
 }

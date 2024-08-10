@@ -2275,6 +2275,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -2696,6 +2700,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -3683,6 +3691,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -4830,6 +4842,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -11040,6 +11056,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -12469,6 +12489,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -12776,6 +12800,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -12906,6 +12934,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -14023,6 +14055,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -14767,6 +14803,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -16680,6 +16720,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -17820,6 +17864,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
@@ -24271,6 +24319,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -25711,6 +25763,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
       objectReference: {fileID: 0}
@@ -26283,6 +26339,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348202179}
     m_Modifications:
+    - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
+      propertyPath: bulletType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5028985226629312759, guid: 011c5df4949f32749ab38b6d47be5ff8, type: 3}
       propertyPath: imageIndex
       value: 2
