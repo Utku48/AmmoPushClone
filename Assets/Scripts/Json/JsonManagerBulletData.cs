@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using Unity.VisualScripting;
 
 public class JsonManagerBulletData : MonoBehaviour
 {
@@ -7,8 +8,19 @@ public class JsonManagerBulletData : MonoBehaviour
 
     private string filePath;
 
+
+    public static JsonManagerBulletData Instance { get; private set; }
+
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
         filePath = Application.persistentDataPath + "/bullets.json";
         LoadData();
     }

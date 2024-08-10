@@ -23,7 +23,7 @@ public class BossMovement : MonoBehaviour
 
 
     private int firstHealth;
-    private int lvlID;
+    private int lvlID = 1;
     private float distanceToTarget;
 
     [SerializeField] private HealthBar _healtBar;
@@ -74,11 +74,12 @@ public class BossMovement : MonoBehaviour
 
         _healtBar.UpdateHealthBar(firstHealth, _health);
 
-        lvlID = moneyAndUpgradeLevelsData.datalevelID;
+        moneyAndUpgradeLevelsData.datalevelID = lvlID;
     }
 
     void Update()
     {
+        Debug.Log(moneyAndUpgradeLevelsData.datalevelID);
         _healtBar.UpdateHealthBar(firstHealth, _health);
 
         if (Input.touchCount > 0)
@@ -183,7 +184,12 @@ public class BossMovement : MonoBehaviour
             state = BossState.Die;
             StartCoroutine(WinEndPanel());
             moneyAndUpgradeLevelsData.datalevelID = lvlID;
+
+            JsonManagerBulletData.Instance.ClearList();
+            JsonManagerBulletData.Instance.SaveData();
+
             jsonManager.JsonSave();
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -197,6 +203,7 @@ public class BossMovement : MonoBehaviour
         }
         if (bulletsComponent != null)
         {
+            Debug.Log("azal");
             _health -= bulletsComponent.damage;
             _animator.SetTrigger("hitReaction");
             Destroy(other.gameObject);
@@ -286,12 +293,8 @@ public class BossMovement : MonoBehaviour
 
         int totalMoney = _lvlMoney;
 
-        if (_uiPanels[1].activeInHierarchy)
-        {
-            SceneManager.LoadScene("Level" + lvlID);
-            totalMoney += _damageMoney;
-        }
-
+        SceneManager.LoadScene("Level" + lvlID);
+        totalMoney += _damageMoney;
 
         moneyAndUpgradeLevelsData.dataMoney += totalMoney;
 
