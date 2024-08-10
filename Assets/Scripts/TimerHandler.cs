@@ -116,7 +116,7 @@ public class TimerHandler : MonoBehaviour
             perlinNoise.m_AmplitudeGain = 0f;
             perlinNoise.m_FrequencyGain = 0f;
 
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("BossScene");
         }
 
     }

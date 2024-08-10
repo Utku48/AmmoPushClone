@@ -23,8 +23,8 @@ public class Pusher2Controller : MonoBehaviour
     {
 
         Vector3 oppositeDirection = collision.transform.position - PlayerMovement.Instance.transform.position;
-        oppositeDirection.y = 0f;
         oppositeDirection.Normalize();
+        oppositeDirection.y = 0f;
 
         if (collision.gameObject.TryGetComponent<Bullets>(out Bullets b))
         {

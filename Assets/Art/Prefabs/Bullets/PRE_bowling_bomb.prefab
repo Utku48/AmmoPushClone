@@ -127,5 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626a060d42611244a868d7be628f4989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletTypes: 1
+  bulletType: 0
   damage: 50
+  imageIndex: 4

@@ -7,6 +7,8 @@ public class Bullets : MonoBehaviour
     public int imageIndex;
     public enum BulletTypes
     {
+        YBullet,
+        Marshmallow,
         Dinamit,
         Bomb,
         C4,

@@ -59,6 +59,13 @@ public class BossMovement : MonoBehaviour
 
     void Start()
     {
+
+        foreach (RectTransform child in _uiPanels[2].gameObject.transform)
+        {
+
+            child.DOScale(Vector3.one , 1f);
+
+        }
         moneyAndUpgradeLevelsData = jsonManager.moneyAndUpgradeLevelsData;
         AnimateBreathing();
 
@@ -199,6 +206,7 @@ public class BossMovement : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _uiPanels[1].SetActive(true); // LoseEndPanel
     }
+
 
     private void AnimateBreathing()
     {

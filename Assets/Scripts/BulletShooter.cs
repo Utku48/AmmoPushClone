@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class BulletShooter : MonoBehaviour
     public List<int> _bulletCounts = new List<int>();
 
     public Transform _firingPoint;
+    public List<Transform> instantiatePositions = new List<Transform>();
+
     public float bulletSpeed = 20f;
     public Transform target;
 
@@ -20,7 +23,7 @@ public class BulletShooter : MonoBehaviour
 
     private void Start()
     {
-       
+
         if (dataManager != null)
         {
             dataManager.LoadData();
@@ -31,7 +34,11 @@ public class BulletShooter : MonoBehaviour
             Debug.LogError("dataManager referansı atanmış değil.");
         }
 
+        StartCoroutine(SpawnBullets());
+
         skinnedMeshRenderer = _top.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+
+       
     }
 
     private void Update()
@@ -47,27 +54,33 @@ public class BulletShooter : MonoBehaviour
 
     private void UpdateBulletCounts()
     {
-        _bulletCounts.Clear(); 
+        _bulletCounts.Clear();
 
-      
-        _bulletCounts.AddRange(new int[4]);
+
+        _bulletCounts.AddRange(new int[6]);
 
         foreach (var bulletData in dataManager.inventory.bullets)
         {
             int index = -1;
             switch (bulletData.bulletTypeName)
             {
-                case "Dinamit":
+                case "YBullet":
                     index = 0;
                     break;
-                case "Bomb":
+                case "Marshmallow":
                     index = 1;
                     break;
-                case "C4":
+                case "Dinamit":
                     index = 2;
                     break;
-                case "Varil":
+                case "Bomb":
                     index = 3;
+                    break;
+                case "C4":
+                    index = 4;
+                    break;
+                case "Varil":
+                    index = 5;
                     break;
             }
 
@@ -77,8 +90,7 @@ public class BulletShooter : MonoBehaviour
             }
         }
     }
-
-    public void DinamitButton()
+    public void YBulletButton()
     {
         if (_bulletCounts.Count > 0 && _bulletCounts[0] > 0)
         {
@@ -87,34 +99,52 @@ public class BulletShooter : MonoBehaviour
             dataManager.SaveData();
         }
     }
-
-    public void C4Button()
+    public void MarshmallowButton()
     {
-        if (_bulletCounts.Count > 1 && _bulletCounts[2] > 0)
+        if (_bulletCounts.Count > 0 && _bulletCounts[1] > 0)
+        {
+            FireProjectile(bullets[1]);
+            _bulletCounts[1]--;
+            dataManager.SaveData();
+        }
+    }
+    public void DinamitButton()
+    {
+        if (_bulletCounts.Count > 0 && _bulletCounts[2] > 0)
         {
             FireProjectile(bullets[2]);
             _bulletCounts[2]--;
-            dataManager.SaveData(); 
+            dataManager.SaveData();
+        }
+    }
+
+    public void C4Button()
+    {
+        if (_bulletCounts.Count > 1 && _bulletCounts[3] > 0)
+        {
+            FireProjectile(bullets[3]);
+            _bulletCounts[3]--;
+            dataManager.SaveData();
         }
     }
 
     public void BombButton()
     {
-        if (_bulletCounts.Count > 2 && _bulletCounts[1] > 0)
+        if (_bulletCounts.Count > 2 && _bulletCounts[4] > 0)
         {
-            FireProjectile(bullets[1]);
-            _bulletCounts[1]--;
-            dataManager.SaveData(); 
+            FireProjectile(bullets[4]);
+            _bulletCounts[4]--;
+            dataManager.SaveData();
         }
     }
 
     public void VarilButton()
     {
-        if (_bulletCounts.Count > 3 && _bulletCounts[3] > 0)
+        if (_bulletCounts.Count > 3 && _bulletCounts[5] > 0)
         {
-            FireProjectile(bullets[3]);
-            _bulletCounts[3]--;
-            dataManager.SaveData(); 
+            FireProjectile(bullets[5]);
+            _bulletCounts[5]--;
+            dataManager.SaveData();
         }
     }
 
@@ -162,5 +192,28 @@ public class BulletShooter : MonoBehaviour
         skinnedMeshRenderer.SetBlendShapeWeight(key3, 100f);
         yield return new WaitForSeconds(delay);
         skinnedMeshRenderer.SetBlendShapeWeight(key3, 0f);
+    }
+
+
+    private IEnumerator SpawnBullets()
+    {
+        int positionIndex = 0;
+
+        for (int j = 0; j < bullets.Count; j++)
+        {
+            for (int i = 0; i < _bulletCounts[j]; i++)
+            {
+
+                Instantiate(bullets[j], instantiatePositions[positionIndex].position, instantiatePositions[positionIndex].rotation);
+
+
+                positionIndex = (positionIndex + 1) % instantiatePositions.Count;
+
+
+                yield return new WaitForSeconds(.05f);
+            }
+        }
+
+
     }
 }

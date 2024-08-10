@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject _pusher2;
     [SerializeField] private GameObject _plane;
     [SerializeField] private Transform _planePoint;
+
+    [SerializeField] private BoxCollider _maxCollider;
 
 
 
@@ -60,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetMovement()
     {
-        _rb.velocity = new Vector3(_horizontal, _rb.velocity.y, _vertical) * _speed * Time.deltaTime;
+        _rb.velocity = new Vector3(_horizontal, _rb.velocity.y, _vertical) * _speed;
     }
 
     private void SetRotation()
@@ -102,18 +106,58 @@ public class PlayerMovement : MonoBehaviour
     private void OnJoystickRelease()
     {
         Vector3 characterStartPos = transform.position;
+        BoxCollider pusher2Collider = _pusher2.GetComponent<BoxCollider>();
+        pusher2Collider.enabled = true;
+
+        List<Transform> allObjectsInPushArea = new List<Transform>();
+        foreach (var item in Physics.OverlapBox(_maxCollider.bounds.center, _maxCollider.bounds.size))
+        {
+            Debug.Log(item.gameObject.name);
+            if (item.TryGetComponent<Bullets>(out Bullets b))
+            {
+                allObjectsInPushArea.Add(item.transform);
+            }
+        }
 
         _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 1f), .25f).OnUpdate(() =>
         {
             //Physics.OverlapBox
+            Transform nearestObject = GetNearestObjectToThePlayer(allObjectsInPushArea.ToArray());
+            if (nearestObject != null)
+            {
+                if (Vector3.Distance(_pusher2.transform.position, transform.position) + 0.5f > Vector3.Distance(nearestObject.transform.position, transform.position))
+                {
+                    Debug.Log("Player Going back");
+                    transform.position -= transform.forward * Time.deltaTime * 15f;
+                }
+
+            }
             //box içerisindeki player'a en yakın objenin pusherr2'ye distance'sini al 
             //o mesafe kadar player'ı geri at
 
             //transform.position=characterStartPos-mesafe   
 
         }).OnComplete(() =>
-         _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 0f), .25f)
-        );
+        {
+            _plane.transform.DOScale(new Vector3(_plane.transform.localScale.x, _plane.transform.localScale.y, 0f), .25f);
+            pusher2Collider.enabled = false;
+        });
 
+    }
+
+    public Transform GetNearestObjectToThePlayer(Transform[] objects)
+    {
+        float minDistance = 9999f;
+        Transform nearest = null;
+        foreach (var item in objects)
+        {
+            float pos = Vector3.Distance(transform.position, item.position);
+            if (pos < minDistance)
+            {
+                nearest = item;
+                minDistance = pos;
+            }
+        }
+        return nearest;
     }
 }

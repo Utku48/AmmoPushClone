@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
+using DG.Tweening;
 
 public class BulletCollector : MonoBehaviour
 {
     public BulletInventory inventory = new BulletInventory();
     public List<Sprite> bulletImages = new List<Sprite>();
     public Transform panelImages;
+
+    public List<TextMeshProUGUI> panelBulletCount = new List<TextMeshProUGUI>();
 
     private Dictionary<int, Image> imageIndexMap = new Dictionary<int, Image>();
 
@@ -21,6 +25,11 @@ public class BulletCollector : MonoBehaviour
         {
             inventory = dataManager.inventory;
         }
+    }
+
+    private void Update()
+    {
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,6 +73,7 @@ public class BulletCollector : MonoBehaviour
                 {
                     if (!imageIndexMap.ContainsKey(index))
                     {
+                        image.gameObject.transform.DOScale((Vector3.one * 2.25f), .2f).OnComplete(() => image.gameObject.transform.DOScale(new Vector3(1.75f, 1.75f, 1.75f), .3f));
                         image.sprite = bulletImages[index];
                         imageIndexMap[index] = image;
                         Debug.Log(image.name);
